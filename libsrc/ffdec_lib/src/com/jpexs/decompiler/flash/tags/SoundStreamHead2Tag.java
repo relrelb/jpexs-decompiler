@@ -12,7 +12,8 @@
  * Lesser General Public License for more details.
  * 
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library. */
+ * License along with this library.
+ */
 package com.jpexs.decompiler.flash.tags;
 
 import com.jpexs.decompiler.flash.SWF;
@@ -238,7 +239,7 @@ public class SoundStreamHead2Tag extends Tag implements SoundStreamHeadTypeTag {
     @Override
     public SoundFormat getSoundFormat() {
         final int[] rateMap = {5512, 11025, 22050, 44100};
-        return new SoundFormat(getSoundFormatId(), rateMap[getSoundRate()], getSoundType());
+        return new SoundFormat(getSoundFormatId(), rateMap[getSoundRate()], getSoundSize(), getSoundType());
     }
 
     @Override

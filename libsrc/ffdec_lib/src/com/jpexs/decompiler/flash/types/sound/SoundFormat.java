@@ -12,7 +12,8 @@
  * Lesser General Public License for more details.
  * 
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library. */
+ * License along with this library.
+ */
 package com.jpexs.decompiler.flash.types.sound;
 
 import com.jpexs.decompiler.flash.SWFInputStream;
@@ -37,6 +38,8 @@ public class SoundFormat {
     public int formatId;
 
     public int samplingRate;
+
+    public boolean sample16bit;
 
     public boolean stereo;
 
@@ -79,9 +82,10 @@ public class SoundFormat {
         }
     }
 
-    public SoundFormat(int formatId, int samplingRate, boolean stereo) {
+    public SoundFormat(int formatId, int samplingRate, boolean sample16bit, boolean stereo) {
         this.formatId = formatId;
         this.samplingRate = samplingRate;
+        this.sample16bit = sample16bit;
         this.stereo = stereo;
         ensureFormat();
     }
@@ -109,7 +113,7 @@ public class SoundFormat {
             return false;
         }
 
-        AudioFormat audioFormat = new AudioFormat(samplingRate, 16, stereo ? 2 : 1, true, false);
+        AudioFormat audioFormat = new AudioFormat(samplingRate, sample16bit ? 16 : 8, stereo ? 2 : 1, true, false);
         DataLine.Info info = new DataLine.Info(SourceDataLine.class,
                 audioFormat);
         try (SourceDataLine line = (SourceDataLine) AudioSystem.getLine(info)) {
