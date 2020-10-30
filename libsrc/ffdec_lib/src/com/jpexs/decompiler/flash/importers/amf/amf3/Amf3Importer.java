@@ -12,9 +12,11 @@
  * Lesser General Public License for more details.
  * 
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library. */
+ * License along with this library.
+ */
 package com.jpexs.decompiler.flash.importers.amf.amf3;
 
+import com.jpexs.helpers.Helper;
 import com.jpexs.decompiler.flash.amf.amf3.ListMap;
 import com.jpexs.decompiler.flash.amf.amf3.Traits;
 import com.jpexs.decompiler.flash.amf.amf3.types.ArrayType;
@@ -418,7 +420,7 @@ public class Amf3Importer {
                             break;
                         case "ByteArray":
                             try {
-                                resultObject = new ByteArrayType(javax.xml.bind.DatatypeConverter.parseHexBinary(typedObject.getString("value")));
+                                resultObject = new ByteArrayType(Helper.parseHexBinary(typedObject.getString("value")));
                             } catch (IllegalArgumentException iex) {
                                 throw new Amf3ParseException("Invalid hex byte sequence", lexer.yyline());
                             }

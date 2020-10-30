@@ -12,7 +12,8 @@
  * Lesser General Public License for more details.
  * 
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library. */
+ * License along with this library.
+ */
 package com.jpexs.helpers;
 
 import com.jpexs.decompiler.flash.AppResources;
@@ -60,7 +61,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.xml.bind.DatatypeConverter;
+import java.util.Base64;
 
 /**
  * Class with helper method
@@ -1423,11 +1424,58 @@ public class Helper {
     }
 
     public static String byteArrayToBase64String(byte[] data) {
-        return DatatypeConverter.printBase64Binary(data);
+        return new String(Base64.getEncoder().encode(data));
     }
 
     public static byte[] base64StringToByteArray(String base64) {
-        return DatatypeConverter.parseBase64Binary(base64);
+        return Base64.getDecoder().decode(base64);
+    }
+
+    private static int hexToBin(char ch) {
+        if ('0' <= ch && ch <= '9') {
+            return ch - '0';
+        }
+        if ('A' <= ch && ch <= 'F') {
+            return ch - 'A' + 10;
+        }
+        if ('a' <= ch && ch <= 'f') {
+            return ch - 'a' + 10;
+        }
+        return -1;
+    }
+
+    public static byte[] parseHexBinary(String s) {
+        final int len = s.length();
+
+        // "111" is not a valid hex encoding.
+        if (len % 2 != 0) {
+            throw new IllegalArgumentException("hexBinary needs to be even-length: " + s);
+        }
+
+        byte[] out = new byte[len / 2];
+
+        for (int i = 0; i < len; i += 2) {
+            int h = hexToBin(s.charAt(i));
+            int l = hexToBin(s.charAt(i + 1));
+            if (h == -1 || l == -1) {
+                throw new IllegalArgumentException("contains illegal character for hexBinary: " + s);
+            }
+
+            out[i / 2] = (byte) (h * 16 + l);
+        }
+
+        return out;
+    }
+
+    private static final char[] hexCode = "0123456789ABCDEF".toCharArray();
+
+    public static String printHexBinary(byte[] data) {
+        StringBuilder r = new StringBuilder(data.length * 2);
+        for (byte b : data) {
+            r.append(hexCode[(b >> 4) & 0xF]);
+            r.append(hexCode[(b & 0xF)]);
+        }
+        return r.toString();
     }
 
     /**

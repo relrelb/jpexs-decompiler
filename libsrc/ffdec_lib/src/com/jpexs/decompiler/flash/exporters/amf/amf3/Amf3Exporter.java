@@ -12,9 +12,11 @@
  * Lesser General Public License for more details.
  * 
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library. */
+ * License along with this library.
+ */
 package com.jpexs.decompiler.flash.exporters.amf.amf3;
 
+import com.jpexs.helpers.Helper;
 import com.jpexs.decompiler.flash.amf.amf3.WithSubValues;
 import com.jpexs.decompiler.flash.amf.amf3.types.AbstractVectorType;
 import com.jpexs.decompiler.flash.amf.amf3.types.ArrayType;
@@ -164,7 +166,7 @@ public class Amf3Exporter {
                 if (serData == null) {
                     ret.append(indent(level + 1)).append("\"serialized\": unknown").append(newLine);
                 } else {
-                    ret.append(indent(level + 1)).append("\"serialized\": \"").append(javax.xml.bind.DatatypeConverter.printHexBinary(serData)).append("\",").append(newLine);
+                    ret.append(indent(level + 1)).append("\"serialized\": \"").append(Helper.printHexBinary(serData)).append("\",").append(newLine);
                     if (!ot.getSerializedMembers().isEmpty()) {
                         ret.append(indent(level + 1)).append("\"unserializedMembers\": {").append(newLine);
                         {
@@ -289,7 +291,7 @@ public class Amf3Exporter {
             return "{" + newLine
                     + indent(level + 1) + "\"type\": \"ByteArray\"," + newLine
                     + addId
-                    + indent(level + 1) + "\"value\": \"" + javax.xml.bind.DatatypeConverter.printHexBinary(data) + "\"" + newLine
+                    + indent(level + 1) + "\"value\": \"" + Helper.printHexBinary(data) + "\"" + newLine
                     + indent(level) + "}";
         } else if (object instanceof DateType) {
             DateType dt = (DateType) object;
